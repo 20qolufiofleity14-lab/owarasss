@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#D9F1FF">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="おわらい巻物">
 <title>おわらい巻物</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Mochiy+Pop+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
 <style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
@@ -395,6 +400,8 @@ function vHome(){
     <span class="kan" style="background:var(--${s.col})">${s.kan}</span>
     <span><span class="en">STEP ${s.kan} · ${s.en}</span>${i===0?' <span class="tag pink">START</span>':''}<h2>${s.name}</h2><span class="sub">${s.sub}</span>
     <span class="minibar"><i style="width:${Math.round(c/s.kata.length*100)}%"></i></span></span></button>`}).join('')}
+  <section class="card"><span class="en">MIX · ALL SCROLLS</span><h2 style="font-size:20px">ぜんぶまぜて出題</h2><p class="sub">4つの巻から、ランダムに出します。練習は10問、クイズは8問。</p><div class="row" style="margin-top:12px"><button class="btn pink" data-act="mix">ミックス練習</button><button class="btn mint" data-act="mixquiz">ミックスクイズ</button></div></section>
+  ${settings()}
   <button class="btn plain" data-act="copy">けっかを書き出す</button>
   <p class="sub center">お題と「こたえの例」は、このアプリ用に作ったものです。本の例は、型カードのページ番号から見くらべてください。</p>`;
 }
@@ -429,7 +436,7 @@ function buildQueue(kataList){
 }
 function startDrill(kataList){
   const q=buildQueue(kataList);
-  go('drill',{id:S.id,q,i:0,phase:'think',res:{g:0,m:0,b:0},before:stampCount(ALL),only:kataList.length===1?kataList[0].id:null});
+  go('drill',{id:S.id||'all',q,i:0,phase:'think',res:{g:0,m:0,b:0},before:stampCount(ALL),only:kataList.length===1?kataList[0].id:null});
 }
 function startTimer(){
   const total=P.set.sec*1000,t0=Date.now();
@@ -439,7 +446,7 @@ function startTimer(){
     if(num)num.textContent=Math.ceil(left/1000); if(bar)bar.style.width=(left/total*100)+'%';},80);
 }
 function vDrill(){
-  const it=S.q[S.i],k=it.k,d=it.d,s=scrollOf(S.id),hide=P.set.hide&&!S.only;
+  const it=S.q[S.i],k=it.k,d=it.d,s=SCROLLS.find(x=>x.kata.includes(k)),hide=P.set.hide&&!S.only;
   const head=`<div class="top"><button class="back" data-act="quit">× やめる</button><span class="num">${S.i+1} / ${S.q.length}</span></div>
    <div class="row" style="align-items:center"><span class="tag mint">${SCENES[d[0]]}</span><span class="tag ${s.col==='sun'?'':s.col}">${hide&&S.phase==='think'?'型：？？？':esc(k.n)}</span></div>
    <div><div class="bubble">${esc(d[1])}</div><p class="who">${hide&&S.phase==='think'?'どの型でもOK。':esc(k.h)}</p></div>`;
@@ -452,11 +459,11 @@ function vDrill(){
 }
 
 function startQuiz(){
-  const s=scrollOf(S.id),ks=shuffle(s.kata).slice(0,8);
+  const id=S.id||'all',pool=id==='all'?ALL:scrollOf(id).kata,ks=shuffle(pool).slice(0,8);
   const qs=ks.map((k,i)=>{const type=i%2?'n2h':'h2n';
-    const others=shuffle(s.kata.filter(x=>x.id!==k.id)).slice(0,3);
+    const others=shuffle(pool.filter(x=>x.id!==k.id)).slice(0,3);
     return {k,type,opts:shuffle([k,...others])}});
-  go('quiz',{id:S.id,qs,i:0,pick:null,ok:0,before:stampCount(ALL)});
+  go('quiz',{id,qs,i:0,pick:null,ok:0,before:stampCount(ALL)});
 }
 function vQuiz(){
   const q=S.qs[S.i],k=q.k,done=S.pick!==null;
@@ -475,7 +482,7 @@ function vResult(){
   return `<header class="hero">${mascot}<div><span class="en">NICE WORK!</span><h1 style="font-size:26px">おつかれさま！</h1><p class="sub">${got>0?'あたらしいスタンプ '+got+'こ！':'つづけると、スタンプがたまります。'}</p></div></header>
    ${body}
    ${S.kind==='quiz'?'':'<p class="sub center">きょう1回、だれかとの会話でひとつ使えたら合格です。</p>'}
-   <div class="row"><button class="btn pink" data-act="${S.kind==='quiz'?'quiz':'again'}">もう1回</button><button class="btn plain" data-act="open" data-id="${S.id}">巻にもどる</button></div>`;
+   <div class="row"><button class="btn pink" data-act="${S.kind==='quiz'?'quiz':'again'}">もう1回</button>${S.id==='all'?'<button class="btn plain" data-act="home">ホームにもどる</button>':'<button class="btn plain" data-act="open" data-id="'+S.id+'">巻にもどる</button>'}</div>`;
 }
 
 function exportText(){
@@ -502,7 +509,7 @@ $app.addEventListener('click',e=>{
   else if(a==='hide'){P.set.hide=id==='1';saveLocal();render()}
   else if(a==='drill')startDrill(scrollOf(S.id).kata);
   else if(a==='drill1')startDrill([ALL.find(k=>k.id===id)]);
-  else if(a==='again')startDrill(S.only?[ALL.find(k=>k.id===S.only)]:scrollOf(S.id).kata);
+  else if(a==='again')startDrill(S.only?[ALL.find(k=>k.id===S.only)]:(S.id==='all'?ALL:scrollOf(S.id).kata));
   else if(a==='said'){stopTimer();S.phase='reveal';render()}
   else if(a==='rate'){const it=S.q[S.i];rec(it.k.id)[id]++;S.res[id]++;saveLocal();
     if(S.i+1<S.q.length){S.i++;S.phase='think';render();window.scrollTo(0,0)}
@@ -511,7 +518,9 @@ $app.addEventListener('click',e=>{
   else if(a==='pick'){const k=S.qs[S.i].k;S.pick=id;const r=rec(k.id);if(id===k.id){r.qo++;S.ok++}else r.qx++;saveLocal();render()}
   else if(a==='qnext'){if(S.i+1<S.qs.length){S.i++;S.pick=null;render();window.scrollTo(0,0)}
     else{pushRemote();go('result',{id:S.id,kind:'quiz',ok:S.ok,total:S.qs.length,before:S.before})}}
-  else if(a==='quit'){pushRemote();go('scroll',{id:S.id})}
+  else if(a==='quit'){pushRemote();if(S.id==='all')go('home');else go('scroll',{id:S.id})}
+  else if(a==='mix'){S.id='all';startDrill(ALL)}
+  else if(a==='mixquiz'){S.id='all';startQuiz()}
   else if(a==='copy')go('copy');
   else if(a==='docopy'){const ta=document.getElementById('exp'),btn=document.getElementById('cpb');
     const done=()=>{btn.textContent='コピーしました'};
