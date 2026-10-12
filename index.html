@@ -121,6 +121,15 @@ textarea{width:100%;min-height:140px;font:13px/1.5 ui-monospace,Menlo,Consolas,m
 .pop{animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
 @keyframes pop{from{transform:scale(.85)}to{transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){.pop{animation:none}.btn,.scr{transition:none}}
+.cv{display:grid;gap:8px;padding:12px;border:2.5px dashed var(--edge);border-radius:16px;background:var(--soft)}
+.ln{max-width:88%;min-width:0;justify-self:start;padding:7px 12px;border:2.5px solid var(--edge);border-radius:16px 16px 16px 4px;background:var(--paper);font-size:15px;line-height:1.55}
+.ln small{display:block;font-size:11px;font-weight:900;color:var(--sub)}
+.ln.me{justify-self:end;border-radius:16px 16px 4px 16px;background:var(--scroll);color:var(--on-color)}
+.ln.me small{color:var(--on-color);opacity:.7}
+.ln.hit{box-shadow:0 0 0 3px var(--pink)}
+.lbl{font-size:13px;font-weight:900;color:var(--sub);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+textarea.memo{min-height:96px;font:15px/1.6 var(--body)}
+.mm{white-space:pre-wrap}
 /* mascot */
 .m-roll{fill:var(--pink);stroke:var(--edge);stroke-width:4}
 .m-body{fill:var(--scroll);stroke:var(--edge);stroke-width:4}
@@ -334,12 +343,61 @@ const SCROLLS=[
   ['w','勉強会の発表の出だしを言う（テーマ：夜間の電話相談）','夜中の電話で、どこまで聞けばええか迷ったこと、ありませんか']]}
 ]}
 ];
+/* 型カードの「会話の例」。A=相手 B=じぶん C=まわり。3つめの1は型を使っているセリフ */
+const CONV={
+r1:[['A','こないだ、引っ越ししてん'],['B','へぇ！ どこに？',1],['A','駅の反対側。それがな、大家さんがな…'],['B','うんうん！',1]],
+r2:[['A','昨日、階段の最後の一段ふみはずしてん'],['B','うわあああ、こわっ！ あの一瞬ヒュッてなるやつやん！',1],['A','そうそう、まさにヒュッて']],
+r3:[['A','休みの日に限って、朝早く目ぇ覚めるねん'],['B','わかる！ 平日あんなに起きられへんのに、なんでやろな',1],['A','ほんまそれ']],
+r4:[['A','昨日、近所のおばちゃんに大根3本もろてん'],['B','3本！？',1],['A','そう、しかも全部ぬきたてで土まみれ']],
+r5:[['A','…で、最後に先生が「よう頑張ったな」って言うてくれてん'],['B','うわぁ…それはずっと覚えてるやつやな',1],['A','そうやねん、いまだに思い出す']],
+r6:[['A','こないだ言うてた温泉、行ってきたで'],['B','どうやった？'],['A','めっちゃよかった。お湯がトロトロで'],['B','ええなぁ、それ聞いたら今週末の予定ぜんぶ消して行きたいわ',1]],
+r7:[['A','新しくできたパン屋のメロンパン、買うてきたで'],['B','…うまっ！ 今年食べた甘いもんで、ぶっちぎり1位やわ',1],['A','まだ10月やで']],
+r8:[['A','（先輩）おれ、実は昔モデルやってん'],['B','やっぱり！ 歩き方がランウェイやと思ってました',1],['A','いや、ボケやねんけど']],
+r9:[['A','見て、この筋肉。ほぼボディビルダーやろ'],['B','……あ、そういえば駅前のパン屋、閉店するらしいで',1],['A','いや聞けや！']],
+r10:[['A','「アルミ缶の上にあるミカン」'],['C','（しーん）'],['B','今の、拍手のタイミングどこやった？',1],['A','もうええって！']],
+r11:[['A','おれ、今日から語尾に「ござる」つけるでござる'],['B','ごめん、どこから聞いたらええか全然わからへん',1],['A','わからんでええでござる']],
+r12:[['A','おれ、靴下3日はいてるけど、におう？'],['B','（周りに）すいません、だれか換気係やってくれる人ー！',1],['C','いやや！']],
+r13:[['A','おまえ、いっつも眠そうやな'],['B','せやで、生まれたときもあくびしながら出てきたらしいわ',1],['A','どんな赤ちゃんやねん']],
+r14:[['A','おまえ、毎朝ギリギリに来るよな'],['B','毎朝ちゃうわ、水曜は5分前や',1],['A','それもギリギリやろ']],
+r15:[['A','おまえ、くしゃみの音でかすぎ'],['B','言うたな。次からおまえの耳元でするからな',1],['A','やめろ！']],
+r16:[['A','その髪、寝ぐせついてるで'],['B','気づいた？ 今日はこういうデザインやねん',1],['A','片側だけやで'],['B','……左右で印象変えてんねん',1]],
+r17:[['A','なんか一発ギャグやって！'],['B','ええけど、100％すべるで？ 先に言うとくで',1],['B','（やる）……'],['B','ほらな、言うたやろ',1]],
+r18:[['A','今夜もう一軒いこうや'],['B','行きたいねんけど、うちの犬に10時までに帰れって言われてんねん',1],['A','犬が言うんかい']],
+r19:[['A','じゃあ次、なんかおもろい話して！'],['B','（キョロキョロして、となりの人の肩をたたく）',1],['C','いや、あんたやって！']],
+r20:[['A','その服、似合ってるやん'],['B','せやろ、服のほうがおれに似合いたがってんねん',1],['A','自分で言うな']],
+r21:[['A','今日のプレゼン、めっちゃよかったです'],['B','ありがとう、たぶん新しいネクタイが話してくれてたわ',1],['A','ネクタイすごいですね']],
+r22:[['A','先輩って、ほんま頼りになりますよね'],['B','ちょっと待って、今の録音するから最初からもう1回',1],['A','2回目は言いません']],
+r23:[['A','で、貯金なんぼあんの？'],['B','（周りに）なぁ、この人の質問、だれか止めてくれる？',1],['C','止めとくわ']],
+h1:[['B','今日めっちゃ暑ない？ 駅まで歩いただけで汗だくや',1],['A','わかる、10月やのにな'],['B','上着持ってきたん完全に失敗やわ']],
+h2:[['A','週末、子どもと動物園行ってん'],['B','ええやん！ 楽しそう'],['B','動物園といえば、こないだキリンが目の前でくしゃみしてな',1],['A','なにそれ見たい']],
+h3:[['B','昨日、自転車こいでたら前から鳩が「バサバサッ」て',1],['B','ふつう鳩って避けるやん。そいつ、こっちに向かってくんねん',1],['B','心の中で「あ、これ負けるやつや」って',1],['A','鳩に負けるな']],
+h4:[['B','（ゆっくり、低めに）……ちょっと聞いてくれる？ 昨日な',1],['A','うん、なになに'],['B','（だんだん声を上げて）そしたら急に、店の電気ぜんぶ消えてん！']],
+h5:[['A','休みの日、なにしてんの？'],['B','けっこうアクティブやで。朝から晩まで動いてる',1],['B','……布団の中で寝返りやけど',1],['A','動いてへんやん']],
+h6:[['A','昨日、ステーキ食べに行ってん'],['B','ええなぁ。おれの昨日の晩ごはん、もやし炒めのもやし抜きやで',1],['A','それ何炒めてんねん']],
+h7:[['B','最近、家でハマってることある？',1],['A','あ、パン焼いてる！'],['B','え、自分で！？']],
+h8:[['B','なぁ、あの新幹線の話、みんなにしたってや',1],['A','あれな、名古屋で降りるはずが…'],['C','えっ、どこまで行ったん？']],
+t1:[['A','（サングラスに浮き輪、手にはスイカで出勤）おはようございます'],['B','いや、ここ海ちゃうで！',1],['B','で、スイカはなんやねん',1]],
+t2:[['A','昨日、傘忘れて、靴もぬれて、しかも鍵も家の中やってん'],['B','いや、ふんだりけったりやな！',1],['B','で、どうやって入ったん！',1]],
+t3:[['A','おれ、毎朝5時に起きて、二度寝してんねん'],['B','いや、起きた意味！',1],['A','起きたっていう実績がほしいねん']],
+t4:[['A','今日の弁当、白ごはんだけやねん'],['B','おかずは！？',1],['A','家に忘れてきた']],
+t5:[['A','このハンバーガー、高さ20センチあるで'],['B','いや、ほぼ2階建てやん',1],['A','どこからかじるねん']],
+t6:[['A','（会議中に、こっそり窓の外を見続けている）'],['B','「ここから見たら議題が解決する気がした」ちゃうねん',1],['A','バレた']],
+t7:[['A','このお菓子もうまい、これもうまい、全部うまいわ'],['B','出た、なんでもうまい大臣',1],['A','光栄です']],
+t8:[['A','（小さく）今日、くつ下の裏表逆やってん'],['B','（小さめに）なんでやねん',1],['A','しかも、くつも左右逆'],['B','（大きく）なんでやねーん！',1]],
+s1:[['B','（スマホにメモ）「無口な課長が、エレベーターで鼻歌うたってた」',1],['B','場所と時間だけ書いとこ',1],['A','（後日）で、その鼻歌なんの曲やったん？']],
+s2:[['もと','上司にほめられた直後に、つまずいた'],['もり','「最近しっかりしてきたな」って言われた3秒後に、何もないとこでつまずいてん',1],['A','3秒は早いな']],
+s3:[['B','これ、ほんまに作ってへんねんけど',1],['B','先月の日曜、昼の2時ごろ、近所の公園でな',1],['B','70歳くらいのおじいちゃんが、ハトにまざってパン食べててん'],['A','どういう状況やねん']],
+s4:[['B','（頭の中で）この話のおもろいとこは「道を聞いた相手も迷子やった」',1],['B','昨日、道に迷って人に聞いてん。そしたらその人も迷子やった',1],['A','二人で迷子やん']],
+s5:[['B','これ、世の中せまいなって思った話やねんけど',1],['A','うん'],['B','旅行先のホテルで、となりの部屋が職場の先輩やってん']],
+s6:[['B','これ、「いや、言うてくれや」って思った話やねんけど',1],['B','1日中、背中に値札ついたまま歩いててん'],['A','だれも言うてくれへんかったん！？']],
+s7:[['B','エレベーターで、知らん人と2人きりになったときの気まずさ、あるやん',1],['A','あるある'],['B','昨日それが30階分続いてん']]
+};
 const ALL=SCROLLS.flatMap(s=>s.kata);
 const STAMP_AT=3, LS='owarai-makimono-v1';
 
 /* ---------- progress ---------- */
-let P={k:{},set:{sec:5,scenes:['f'],hide:false}};
-try{const raw=localStorage.getItem(LS); if(raw){const j=JSON.parse(raw); if(j&&j.k)P.k=j.k; if(j&&j.set)Object.assign(P.set,j.set);}}catch(e){}
+let P={k:{},memo:{},set:{sec:5,scenes:['f'],hide:false}};
+try{const raw=localStorage.getItem(LS); if(raw){const j=JSON.parse(raw); if(j&&j.k)P.k=j.k; if(j&&j.memo)P.memo=j.memo; if(j&&j.set)Object.assign(P.set,j.set);}}catch(e){}
 if(!P.set.v2){P.set.sec=30;P.set.v2=1}
 function saveLocal(){try{localStorage.setItem(LS,JSON.stringify(P))}catch(e){}}
 function rec(id){return P.k[id]||(P.k[id]={g:0,m:0,b:0,qo:0,qx:0})}
@@ -358,13 +416,14 @@ async function initSync(){
     const snap=await dbDoc.get();
     if(snap.exists){const d=snap.data()||{},rk=d.k||{};
       for(const id2 in rk){const a=rec(id2),b=rk[id2]||{};['g','m','b','qo','qx'].forEach(f=>{a[f]=Math.max(a[f]||0,Number(b[f])||0)})}
+      const rm=d.memo||{};for(const m in rm){if(!P.memo[m]&&typeof rm[m]==='string')P.memo[m]=rm[m]}
       saveLocal();}
     synced=true; if(S.v==='home'||S.v==='scroll')render();
   }catch(e){dbDoc=null}
 }
 function pushRemote(){
   if(!dbDoc)return; dirty=true; if(saving)return; saving=true;
-  (async()=>{while(dirty&&dbDoc){dirty=false;try{await dbDoc.set({k:P.k,t:Date.now()})}catch(e){dbDoc=null;synced=false}}saving=false})();
+  (async()=>{while(dirty&&dbDoc){dirty=false;try{await dbDoc.set({k:P.k,memo:P.memo,t:Date.now()})}catch(e){dbDoc=null;synced=false}}saving=false})();
 }
 
 /* ---------- helpers ---------- */
@@ -424,10 +483,13 @@ function vScroll(){
   <h2 style="font-size:18px;margin-top:6px">型カード（${stampCount(s.kata)}/${s.kata.length}）</h2>
   <div class="klist">${s.kata.map(k=>{const open=S.open===k.id,r=P.k[k.id];return `<div class="kata">
     <button data-act="kata" data-id="${k.id}" aria-expanded="${open}"><span class="stamp ${hasStamp(k.id)?'on':''}">${hasStamp(k.id)?'OK':(r?r.g:0)}</span><span class="nm">${esc(k.n)}</span><span aria-hidden="true">${open?'▲':'▼'}</span></button>
-    ${open?`<div class="kbody"><dl class="kv"><dt>いつ使う</dt><dd>${esc(k.w)}</dd><dt>やり方</dt><dd>${esc(k.h)}</dd>${k.c?`<dt>ちゅうい</dt><dd>${esc(k.c)}</dd>`:''}<dt>本のページ</dt><dd>${k.p?'p.'+k.p+' あたり':'目次からさがす'}${k.rec?'　／声の練習。録音して聞きかえそう':''}</dd></dl>
+    ${open?`<div class="kbody"><dl class="kv"><dt>いつ使う</dt><dd>${esc(k.w)}</dd><dt>やり方</dt><dd>${esc(k.h)}</dd>${k.c?`<dt>ちゅうい</dt><dd>${esc(k.c)}</dd>`:''}<dt>本のページ</dt><dd>${k.p?'p.'+k.p+' あたり':'目次からさがす'}${k.rec?'　／声の練習。録音して聞きかえそう':''}</dd></dl>${convHTML(k.id)}<div><label class="lbl" for="memo-${k.id}"><span>じぶんメモ</span><span>本で覚えたい例や、自分のアレンジ</span></label><textarea class="memo" id="memo-${k.id}" data-id="${k.id}" placeholder="ここに書いたことは、練習の答え合わせにも出ます">${esc(P.memo[k.id]||'')}</textarea></div>
     <div><button class="btn small pink" data-act="drill1" data-id="${k.id}">この型だけ練習</button></div></div>`:''}</div>`}).join('')}</div>`;
 }
 
+const WHO={A:'相手',B:'じぶん',C:'まわり'};
+function convHTML(id){const c=CONV[id];if(!c)return '';
+  return '<div><p class="lbl"><span>会話の例</span><span>ピンクの枠が型のセリフ</span></p><div class="cv">'+c.map(l=>'<p class="ln'+(l[0]==='A'||l[0]==='C'||l[0]==='もと'?'':' me')+(l[2]?' hit':'')+'"><small>'+esc(WHO[l[0]]||l[0])+'</small>'+esc(l[1])+'</p>').join('')+'</div></div>'}
 function buildQueue(kataList){
   const sc=P.set.scenes;let items=[];
   kataList.forEach(k=>k.d.forEach(d=>{if(sc.includes(d[0]))items.push({k,d})}));
@@ -453,7 +515,7 @@ function vDrill(){
   if(S.phase==='think')return head+`<div class="count" id="cnt" aria-live="off">${P.set.sec}</div><div class="tbar"><i id="tb"></i></div>
    <p class="big">声に出して返そう！</p><button class="btn" data-act="said">言えた！</button>`;
   return head+`<div class="ans pop"><span class="tag en">EXAMPLE</span><p class="ex">${esc(d[2])}</p>
-    <p class="sub">${hide?'型：'+esc(k.n)+'　':''}${k.p?'本の例は p.'+k.p+' あたりで見くらべよう。':'本の例も見くらべよう。'}${k.rec?' 声の練習なので、録音して聞きかえそう。':''}</p></div>
+    <p class="sub">${hide?'型：'+esc(k.n)+'　':''}${k.p?'本の例は p.'+k.p+' あたりで見くらべよう。':'本の例も見くらべよう。'}${k.rec?' 声の練習なので、録音して聞きかえそう。':''}</p>${P.memo[k.id]?'<p class="sub mm"><b>じぶんメモ：</b>'+esc(P.memo[k.id])+'</p>':''}</div>
    <p class="center" style="font-weight:900">どうやった？</p>
    <div class="rate"><button class="btn mint" data-act="rate" data-id="g">◎<small>すぐ言えた</small></button><button class="btn" data-act="rate" data-id="m">△<small>時間かかった</small></button><button class="btn pink" data-act="rate" data-id="b">✕<small>出なかった</small></button></div>`;
 }
@@ -528,6 +590,9 @@ $app.addEventListener('click',e=>{
     try{navigator.clipboard.writeText(ta.value).then(done,fallback)}catch(err){fallback()}}
 });
 
+let memoT=null;
+$app.addEventListener('input',e=>{const t=e.target;if(t.classList&&t.classList.contains('memo')){P.memo[t.dataset.id]=t.value;clearTimeout(memoT);memoT=setTimeout(saveLocal,400)}});
+$app.addEventListener('change',e=>{const t=e.target;if(t.classList&&t.classList.contains('memo')){saveLocal();pushRemote()}});
 render();
 initSync();
 </script>
