@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="おわらい巻物">
 <title>おわらい巻物</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Mochiy+Pop+One&family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Old+Mincho:wght@400;700&family=Cormorant+Garamond:wght@600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Mochiy+Pop+One&family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Old+Mincho:wght@400;700&family=Cormorant+Garamond:wght@600;700&family=Fredoka:wght@600;700&display=swap">
 <style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
 <style>
 /* Layout: one phone-width column of chunky "sticker" cards on a dotted sky; one screen = one job. */
@@ -183,6 +183,43 @@ textarea.memo{min-height:96px;font:15px/1.6 var(--body)}
 :root[data-side="formal"] .bubble{font-size:17px;border-width:2px;border-radius:14px}
 :root[data-side="formal"] .bubble::after{border-width:2px}
 :root[data-side="formal"] .count{font-weight:700}
+/* ---------- SIDE L (listen): calm sage, ripple dots, rounded type ---------- */
+:root[data-side="listen"]{
+  --bg:#E8F5EE; --dot:#C5E6D4; --paper:#FFFFFF; --ink:#173A33; --sub:#4E6B63;
+  --edge:#173A33; --sun:#FFC94D; --pink:#FF9A8B; --mint:#5FD0B0; --grape:#9DB8FF;
+  --soft:#F0F8F3; --on-color:#173A33; --scroll:#FFF1DA; --ok:#2FA882; --ng:#E8637A;
+  --display:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;
+  --pop:"Fredoka","Zen Maru Gothic","Arial Rounded MT Bold",sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root[data-side="listen"]:not([data-theme="light"]){
+  --bg:#0F2420; --dot:#17342C; --paper:#1A3430; --ink:#EEF7F3; --sub:#A9C7BC;
+  --edge:#06120F; --soft:#143029; --scroll:#FFF1DA; --ok:#5FD0B0; --ng:#FF9A8B; color-scheme:dark } }
+:root[data-side="listen"][data-theme="dark"]{
+  --bg:#0F2420; --dot:#17342C; --paper:#1A3430; --ink:#EEF7F3; --sub:#A9C7BC;
+  --edge:#06120F; --soft:#143029; --scroll:#FFF1DA; --ok:#5FD0B0; --ng:#FF9A8B; color-scheme:dark }
+:root[data-side="listen"] body{background-image:radial-gradient(circle,transparent 0 9px,var(--dot) 9px 11px,transparent 11px);background-size:36px 36px}
+:root[data-side="listen"] .kan{transform:rotate(3deg)}
+:root[data-side="listen"] .en{letter-spacing:.08em;font-weight:600}
+:root[data-side="listen"] h1,:root[data-side="listen"] h2,:root[data-side="listen"] .disp{font-weight:900}
+.sidenav{display:flex;gap:6px;justify-content:flex-end;margin-bottom:-8px;flex-wrap:wrap;padding-left:44px}
+.sidenav button{border:2.5px solid var(--edge);border-radius:999px;background:var(--paper);padding:4px 12px;font-weight:900;font-size:12px;min-height:36px;color:var(--sub)}
+.sidenav button[aria-current="true"]{background:var(--sun);color:var(--on-color);box-shadow:0 3px 0 var(--edge)}
+.sidenav .en{font-size:12px;color:inherit}
+.waitbox{display:grid;gap:6px;justify-items:center;padding:18px;border:3px dashed var(--edge);border-radius:22px;background:var(--soft)}
+.waitbox .count{font-size:64px}
+.bubble.more{border-style:dashed;background:var(--paper);color:var(--ink)}
+.bubble.more::after{background:var(--paper);border-style:dashed}
+.ex.ng{text-decoration:line-through;text-decoration-thickness:3px;text-decoration-color:var(--ng);color:var(--sub);font-weight:700}
+.why{border-left:5px solid var(--mint);padding:6px 12px;background:var(--soft);border-radius:0 12px 12px 0;font-size:14px;line-height:1.6}
+.rf{display:inline-block;margin:2px 4px 0 0;padding:1px 8px;border:2px solid var(--edge);border-radius:999px;font-size:11px;font-weight:900;color:var(--sub);background:var(--paper)}
+.refs{display:grid;gap:12px}
+.ref{border:2.5px solid var(--edge);border-radius:16px;padding:12px;background:var(--paper);font-size:14px;line-height:1.6;overflow-wrap:anywhere}
+.ref b{font-size:15px}
+.ref .u{color:var(--sub);margin-top:4px}
+.rule{display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:center}
+.rule .num{display:grid;place-items:center;width:40px;height:40px;border:3px solid var(--edge);border-radius:50%;background:var(--sun);color:var(--on-color)}
+.m-cup{fill:var(--grape);stroke:var(--edge);stroke-width:4}
+.m-band{fill:none;stroke:var(--edge);stroke-width:7;stroke-linecap:round}
 </style>
 </head>
 <body>
@@ -534,18 +571,139 @@ const FSCROLLS=[
 ]}
 ];
 const FALL=FSCROLLS.flatMap(s=>s.kata);
+/* ---------- 第3面（SIDE L · LISTEN）: 聞く型。お題・例文はすべてこのアプリ用の書き下ろし ----------
+   d の形: [ばめん, 相手のセリフ, ◎サポート応答の例, ✕シフト応答（自分の話に持っていく）の例, （2秒待つと出てくる続き）] */
+const REFS={
+ derber:{k:'paper',a:'Derber, C.',y:'1979 / 2000',t:'The Pursuit of Attention: Power and Ego in Everyday Life (2nd ed.)',j:'Oxford University Press',u:'会話の返し方を「サポート応答（相手の話を支える）」と「シフト応答（自分に話題を移す）」に分けた古典。この巻物の土台'},
+ huang:{k:'paper',a:'Huang, K., Yeomans, M., Brooks, A. W., Minson, J., & Gino, F.',y:'2017',t:'It doesn’t hurt to ask: Question-asking increases liking',j:'Journal of Personality and Social Psychology, 113(3), 430–452',u:'質問、とくに相手の話を受けた「フォローアップ質問」を多くする人ほど好かれる、を複数の実験で示した'},
+ tamir:{k:'paper',a:'Tamir, D. I., & Mitchell, J. P.',y:'2012',t:'Disclosing information about the self is intrinsically rewarding',j:'PNAS, 109(21), 8038–8043',u:'人は自分について話すとき、脳の報酬系が働く。相手に話してもらうこと自体が、相手を気持ちよくさせる根拠'},
+ weger:{k:'paper',a:'Weger, H., Castle Bell, G., Minei, E. M., & Robinson, M. C.',y:'2014',t:'The relative effectiveness of active listening in initial interactions',j:'International Journal of Listening, 28(1), 13–31',u:'言いかえ・要約・気持ちの反映（能動的傾聴）は、相づちだけ・アドバイスよりも「理解された」と感じさせる'},
+ rogers:{k:'paper',a:'Rogers, C. R., & Farson, R. E.',y:'1957',t:'Active Listening',j:'University of Chicago, Industrial Relations Center',u:'「能動的傾聴」のもと。言葉の中身だけでなく、気持ちを受けとめて返すこと、評価や助言をはさまないことを説いた'},
+ rowe:{k:'paper',a:'Rowe, M. B.',y:'1986',t:'Wait time: Slowing down may be a way of speeding up!',j:'Journal of Teacher Education, 37(1), 43–50',u:'問いかけのあと3秒以上待つと、相手の答えが長く、深く、自発的になる（教室での研究）'},
+ koudenburg:{k:'paper',a:'Koudenburg, N., Postmes, T., & Gordijn, E. H.',y:'2011',t:'Disrupting the flow: How brief silences in group conversations affect social needs',j:'Journal of Experimental Social Psychology, 47(2), 512–515',u:'会話中の4秒の沈黙は、本人が気づかなくても不安や拒絶感を生む。待つのは2〜3秒まで、の根拠'},
+ kluger:{k:'paper',a:'Kluger, A. N., & Itzchakov, G.',y:'2022',t:'The power of listening at work',j:'Annual Review of Organizational Psychology and Organizational Behavior, 9, 121–146',u:'職場で「聞いてもらえた」と感じることが、話し手の率直さ・心理的安全性・関係の質を高める研究のレビュー'},
+ yeomans:{k:'paper',a:'Yeomans, M., Minson, J., Collins, H., Chen, F., & Gino, F.',y:'2020',t:'Conversational receptiveness: Improving engagement with opposing views',j:'Organizational Behavior and Human Decision Processes, 160, 131–148',u:'反対意見に「相手の主張を認める・同意できる点を言う・断定を避ける」で返すと、相手は対話を続けたくなる'},
+ zenger:{k:'paper',a:'Zenger, J., & Folkman, J.',y:'2016',t:'What great listeners actually do',j:'Harvard Business Review（2016年7月14日）',u:'聞き上手は黙っているだけではなく、質問で相手の考えを引き出す「トランポリン」である、という分析'},
+ voss:{k:'book',a:'Voss, C., & Raz, T.',y:'2016',t:'Never Split the Difference',j:'HarperBusiness（邦訳『逆転交渉術』早川書房）',u:'FBI交渉人の技法。「ミラーリング（最後の言葉を返す）」「ラベリング（気持ちに名前をつける）」「なぜ、より、何・どう」'},
+ headlee:{k:'book',a:'Headlee, C.',y:'2015 / 2017',t:'10 ways to have a better conversation（TED）／ We Need to Talk',j:'TED / Harper Wave',u:'「自分の経験を相手の経験と同列に置かない」「開かれた質問」「聞く」など、会話の10の原則'},
+ murphy:{k:'book',a:'Murphy, K.',y:'2020',t:'You’re Not Listening',j:'Celadon Books（邦訳『LISTEN』篠田真貴子 監訳、日経BP、2021）',u:'聞けない原因（返事を準備している、話題を奪う）と、聞く人がしていることを取材した本'},
+ covey:{k:'book',a:'Covey, S. R.',y:'1989',t:'The 7 Habits of Highly Effective People',j:'Free Press（邦訳『7つの習慣』）',u:'第5の習慣「まず理解に徹し、そして理解される」'},
+ friedman:{k:'book',a:'Friedman, G., & Himmelstein, J.',y:'2008',t:'Challenging Conflict: Mediating Through Understanding',j:'American Bar Association',u:'「聞く→自分の言葉で返す→合っているか確かめる」のループ（looping）を調停の技法として体系化'},
+ duhigg:{k:'book',a:'Duhigg, C.',y:'2024',t:'Supercommunicators',j:'Random House',u:'ルーピングを一般向けに紹介。「理解のための確認」が対立のある会話でも効くことを事例で示す'},
+ stanier:{k:'book',a:'Bungay Stanier, M.',y:'2016',t:'The Coaching Habit',j:'Box of Crayons Press',u:'「ほかには？（And what else?）」を、相手の本当の論点を引き出す問いとして勧める'},
+ ivey:{k:'book',a:'Ivey, A. E., Ivey, M. B., & Zalaquett, C. P.',y:'多版',t:'Intentional Interviewing and Counseling',j:'Cengage',u:'マイクロカウンセリングの基本技法（最小のうながし、開かれた質問、言いかえ、感情の反映）'},
+ tohata:{k:'jp',a:'東畑開人',y:'2022',t:'聞く技術 聞いてもらう技術',j:'ちくま新書',u:'「聞く」が難しくなるのは技術ではなく関係の問題、という視点。聞けないときの自分を責めすぎないために'},
+ agawa:{k:'jp',a:'阿川佐和子',y:'2012',t:'聞く力――心をひらく35のヒント',j:'文春新書',u:'インタビューの実践知。相手の話をさえぎらない、沈黙を怖がらない'},
+ higashiyama:{k:'jp',a:'東山紘久',y:'2000',t:'プロカウンセラーの聞く技術',j:'創元社',u:'「聞き上手は話さない」「相づち・言いかえ」など、カウンセラーの聞き方を日常向けに'}
+};
+const LSCROLLS=[
+{id:'uk',kan:'1',en:'RECEIVE',name:'受けとめの巻',sub:'まず、相手の言葉をそのまま返す。ここから',col:'pink',kata:[
+ {id:'l1',n:'最後の言葉を拾う',w:'相手の話が一段落したとき。次に何を聞くか迷ったとき',h:'相手が最後に言った言葉（1〜3語）を、少し語尾を上げてそのまま返す。あとは黙る',c:'文ごと繰り返すとオウム返しでわざとらしい。言葉1〜3語だけ',y:'相手は「聞いてもらえた」と感じて続きを話しはじめる。交渉のプロが最初に使う技で、こちらは質問を考える余裕も生まれる',r:['voss','rogers'],d:[
+  ['f','土日な、結局ずっと家で動画見てたわ','気力なくて？','俺も俺も。俺なんか3日連続やで','…なんかもう、外出る気力なくて'],
+  ['w','あの子の血糖、夜中だけ変な動きをするんですよね','夜中だけ、ですか','あー、僕も前に似た子を診てて、そのときは…'],
+  ['p','最近、学校に行きたがらなくて…','朝になると、お腹が','それ、よくあるんですよ。うちの子もね','…朝になると、お腹が痛いって言うんです'],
+  ['k','今日さ、保育園の先生に呼び止められてん','先生に？','え、俺が迎えのときは何も言われへんかったで']]},
+ {id:'l2',n:'気持ちに名前をつける',w:'相手の話に、うれしい・困った・こわい、がにじんだとき',h:'「それはきついな」「うれしいやつやん」と、気持ちを短い言葉にして返す。外れても相手が直してくれる',c:'「わかるわかる」で済ませない。「気持ちはわかる」は自分の話への入口になりやすい',y:'気持ちを言葉にされると「わかってもらえた」感が高まる。感情の反映は、相づちだけより理解されたと感じさせることが実験で示されている',r:['voss','weger','rogers'],d:[
+  ['f','上司に、みんなの前で資料のミス指摘されてさ','それはきついな。人前やとなおさら','わかる。俺も昔めっちゃ怒られたことあって'],
+  ['w','今日の症例、あとから考えたら最初の判断、迷ったなって','まだ引っかかってるんですね','いや、あれは正しいですよ。僕ならもっと早く…','…結果的には大丈夫だったんですけど'],
+  ['p','検査でまた針を刺すって聞いて、この子が泣いちゃって','お母さんもつらかったですよね','大丈夫、すぐ終わりますから'],
+  ['k','今日、下の子がずっと泣いてて何もできんかった','それはしんどかったな','俺なんか病院で今日な…']]},
+ {id:'l3',n:'短く言いかえて返す',w:'相手が長めに話して、ひと区切りついたとき',h:'「つまり〇〇ってこと？」「〇〇で、△△なんですね」と1文にまとめて返す。合っていれば相手は「そう！」と続ける',c:'自分の解釈を足さない。相手の言葉でまとめる。長い要約は説教に聞こえる',y:'言いかえて返す「能動的傾聴」は、相づちだけ・アドバイスよりも「理解された」と感じさせることが実験で示されている',r:['weger','rogers','ivey'],d:[
+  ['f','転職しようか迷っててんけど、今の職場も嫌いちゃうし、でも給料はな、って感じで','職場は好き、でも給料で迷ってる、ってことか','転職なら俺の友達が去年してて、その話聞く？'],
+  ['w','家族への説明なんですが、病名は伝えて、今後の見通しまではまだで、本人の理解度もまちまちで','病名までは伝えて、見通しはこれから。本人の理解はまだ、ですね','それなら僕のやり方があって…'],
+  ['p','薬は飲ませてるんですけど、朝はバタバタで忘れることもあって、夜は主人が帰ってきてからなので時間がバラバラで','朝は忘れがちで、夜は時間が日によって違う、ということですね','決まった時間に飲ませてください'],
+  ['k','来月の帰省、両方の実家回るの正直きつくて、でも断りにくいし','両方行くのは重い、でも断るのも気が重い、やんな','俺は別に平気やけど']]},
+ {id:'l4',n:'「それで？」のひとこと',w:'相手の話が止まりかけたけど、まだ続きがありそうなとき',h:'「それで？」「うん、それから？」「へぇ、で？」と2〜3文字で先をうながす。少し身をのり出して',c:'急かす口調にしない。語尾を上げてやわらかく。自分の質問で方向を変えないのがコツ',y:'短いうながしだけで相手は話を続ける。質問より負担が小さく、話の主導権を相手に残せる（最小のうながし）',r:['ivey','rogers','murphy'],d:[
+  ['f','そしたらな、店員さんがめっちゃ小声で…','小声で、なに？','あ、その店、俺も先週行ったわ'],
+  ['w','ご家族から、昨日ちょっと気になることを言われまして','うん、それで？','クレームですか？ あの家族、前から…'],
+  ['p','薬を飲んでから、なんか様子が…','様子が、どんな感じでしたか','副作用ですね。この薬はよくあって…'],
+  ['k','今日な、公園でな…','うん、公園で？','公園といえば、パパも昔な']]}
+]},
+{id:'to',kan:'2',en:'ASK',name:'質問の巻',sub:'相手の話の中から、ひとつ選んで深掘りする',col:'mint',kata:[
+ {id:'l5',n:'フォローアップ質問',w:'相手が何かを話したあと。話題を変える前',h:'相手がいま言ったことの中から1つ選んで、「どこ？」「誰と？」「どうやって？」と深掘りする',c:'話題を変える質問、自分が聞きたいだけの質問は効果が薄い。いまの話の続きを聞く',y:'会話中に質問、とくに相手の話を受けたフォローアップ質問を多くする人ほど、相手から好かれることが実験で示されている',r:['huang','headlee'],d:[
+  ['f','先週末、久しぶりに高校のときのやつらと飲んでん','おー、誰来たん？','俺も来月、同窓会あるねんけどさ'],
+  ['w','例の論文、ようやく投稿できました','おめでとうございます！ どのジャーナルに？','僕もいま、症例報告を書いてて…'],
+  ['p','この子、最近サッカー始めたんです','サッカー！ どこで習ってるんですか？','運動はいいですね。では、血糖の話に戻りますが'],
+  ['k','今日、同僚の人と新しいランチの店に行ってきた','何食べたん？','俺は今日も院内のコンビニやったわ']]},
+ {id:'l6',n:'「なんで」より「どんな」',w:'理由や背景を知りたいとき',h:'「なんで？」を、「どんな感じで？」「何があったん？」「どうやって決めた？」に置きかえる',c:'「なんで」は責めている響きになりやすい。とくに職場や家族が相手のとき',y:'「なぜ」で始まる質問は相手を防御的にさせやすく、「何」「どう」で始まる開かれた質問のほうが話が広がる、とカウンセリングと交渉の両分野で教えられている',r:['voss','ivey'],d:[
+  ['f','結局、あの旅行キャンセルしてん','そうなんや。何があったん？','え、なんで？ もったいな'],
+  ['w','あの検査、今回はオーダーしませんでした','どういう判断でしたか？','なんでですか？'],
+  ['p','薬、ちょっと減らしてみたんです','減らしてみて、どんな感じでしたか？','なんで勝手に減らしたんですか'],
+  ['k','今日、保育園休ませてん','どんな様子やったん？','なんで？ 熱あったん？']]},
+ {id:'l7',n:'自分の話は、質問2つのあと',w:'相手の話を聞いて「俺も！」と言いたくなった瞬間',h:'言いたいことはいったんしまい、相手に質問を2つしてから出す。2つ聞くころには、言う必要がなくなっていることも多い',c:'質問のふりをして自分の話に持っていかない（「俺もそうやったけど、お前は？」はNG）',y:'会話の返し方は「相手の話を支える返答」と「自分に話題を移す返答」に分かれる。自分に移す返答が続く相手には、人は話す気をなくす',r:['derber','murphy','headlee'],d:[
+  ['f','最近ランニング始めてん、朝に','朝！ 何時くらいに走ってるん？','俺も前やっててんけど、3日で終わったわ'],
+  ['w','週末、学会でポスター発表だったんです','どうでした？ 質問とか来ました？','僕のときはですね、めちゃくちゃ緊張して…'],
+  ['p','お姉ちゃんが受験でピリピリしてて、家の空気が','お姉ちゃんも大変ですね。この子はそのとき、どんな様子ですか？','うちも上の子が…'],
+  ['k','今日な、ママ友に子育ての相談されてん','へぇ、どんな相談？','俺も今日、外来でお母さんに相談されてな']]},
+ {id:'l8',n:'気持ちをたずねる',w:'出来事の話がひと通り終わったとき',h:'「それ、どう思った？」「そのとき、どんな気持ちやった？」と、事実ではなく気持ちをたずねる',c:'「大丈夫？」はYES/NOで終わる。「どうやった？」と開く',y:'事実の確認より、気持ちをたずねられたほうが人は「聞いてもらえた」と感じる。感情の反映はカウンセリングの基本技法',r:['rogers','ivey','murphy'],d:[
+  ['f','で、面接の結果、落ちててん','そうか…。いま、どんな気持ち？','まあ次あるやん！ 俺なんか5社落ちたで'],
+  ['w','昨日、急変対応で初めてリーダーをやりました','お疲れさまでした。やってみて、どうでしたか？','僕が初めてやったときは…'],
+  ['p','来年から注射を自分で打つことになるって聞いて','お母さんご自身は、どう感じてますか？','みんな最初はそうですよ。大丈夫です','…本人はまだピンときてないみたいで'],
+  ['k','今日、上の子に初めて「ママ嫌い」って言われてん','え…。それ言われて、どうやった？','あー、そういう時期やな。本には…']]}
+]},
+{id:'ma2',kan:'3',en:'WAIT',name:'待つの巻',sub:'せっかちさん専用。2秒だまる練習',col:'grape',kata:[
+ {id:'l9',n:'2秒だまる',w:'相手が話し終えた（ように見えた）直後',h:'心の中で「いち、に」と数えてから返す。そのあいだに相手が続きを話しはじめたら、そのまま聞く',c:'4秒以上の沈黙は相手も不安になる。2秒で返す、を目安に',y:'問いかけのあと3秒待つと相手の答えが長く深くなることが教室の研究で示されている。一方、4秒の沈黙は居心地の悪さを生むので、2〜3秒が目安',r:['rowe','koudenburg'],d:[
+  ['f','まあ、別に俺は気にしてへんけど','ちょっとムカついてる、か','（間髪入れずに）やろ！ 俺やったらキレてるわ','…ほんまはちょっとムカついてるけどな'],
+  ['w','今の方針でいいと思います','うん、気になる点、教えてください','（即）じゃあ、これで行きましょう','…ただ、一点だけ気になってて'],
+  ['p','特に変わったことはないです','夜中のトイレ、何回くらいですか？','（即）はい、では次の検査の話ですが','…あ、そういえば、夜中にトイレに行く回数が増えたかも'],
+  ['k','今日は特に何もなかったよ','うん、何て言われたん？','（即）そっか。俺は今日な…','…あ、でも先生にちょっと言われたことがあって']]},
+ {id:'l10',n:'言いたいことは「あとで箱」へ',w:'相手の話の途中で、言いたいことが頭に浮かんだとき',h:'浮かんだことを頭の中の箱に入れて、いったん手放す。相手の話が終わってから、まだ必要なら出す',c:'箱の中身を覚えておこうと頑張ると、結局聞けなくなる。忘れていいものと決める',y:'「次に何を言うか」を考えているあいだ、人は聞けていない。上手な聞き手は返事を準備せず、相手の話を聞ききる',r:['murphy','rogers','zenger'],d:[
+  ['f','新しいイヤホン買ってんけどな、ノイキャンがすごくて','いびきが消えるのすごいな。どこのやつ？','あ、俺もイヤホン欲しくてさ、どこのがいい？','…電車でな、隣のおっちゃんのいびきが消えてん'],
+  ['w','この家族、説明のときに毎回お父さんだけ黙ってて','戻ってきて、何て？','あ、そのお父さん、僕も前に会ったことあって','…で今日、帰り際にお父さんが一人で戻ってきたんです'],
+  ['p','食事のことなんですけど、給食で','本人が気にしてるんですね。何て言ってました？','（さえぎって）給食の件は学校に手紙を書きますね','…先生に「おかわりだめ」って言われたみたいで、本人がすごく気にしてて'],
+  ['k','今日な、スーパーで','おー、自分から言うたん？','あ、スーパーで思い出した。牛乳買った？','…上の子が、知らんおばあちゃんに「おはよう」って言うてん']]},
+ {id:'l11',n:'最後まで言わせる',w:'相手の文の終わりが見えてきたとき',h:'相手の言葉の最後の「。」まで待ってから口を開く。先回りして文を完成させない',c:'「わかったわかった」「要するに〇〇でしょ」は、相手の話を奪う言葉',y:'話をさえぎられる・先取りされると、人は「聞かれていない」と感じる。言い終えるのを待つことは、聞き上手の基本として繰り返し指摘されている',r:['headlee','derber','agawa'],d:[
+  ['f','あの映画な、最後のシーンが','（最後まで聞いて）うん、最後のシーンがどうやった？','あ、どんでん返しのやつやろ！ 知ってる知ってる'],
+  ['w','この子の退院時期なんですが、ご家族の希望としては','（言い終わるまで待って）はい、ご家族の希望を聞かせてください','来週ですよね？ もう調整してます'],
+  ['p','先生、ちょっと聞きたいことが、あの、薬のことで','（待って）はい、薬のこと、どうぞ','副作用ですか？ それなら…'],
+  ['k','今日の夜ごはんなんやけど','（待って）うん、夜ごはん？','カレーでいい。あ、俺が作ろか']]},
+ {id:'l12',n:'「俺も」を飲みこむ',w:'相手の話が、自分の経験と重なったとき',h:'「俺も」「私も」を言う代わりに、「へぇ」「それで？」で相手の話を続けさせる。自分の経験は、聞かれたら話す',c:'共感のつもりの「俺も」は、相手には話題の横取りに見える',y:'「自分も同じ経験が」で返すと、話の主役が入れかわる。共感は同じ経験を語ることではなく、相手の経験を聞くことで伝わる',r:['derber','headlee','murphy'],d:[
+  ['f','腰やってもうてん、重いもん持ったときに','うわ、それ動かれへんやん。いまどんな感じ？','俺も去年やったわ！ 3日寝たきりで…'],
+  ['w','当直明けで、今日はもう頭が回ってないです','きつい当直でしたか？','僕も昨日、3回起こされて…'],
+  ['p','夜泣きがひどくて、私、3日まともに寝てなくて','3日…。それは限界ですよね。夜はどんな感じですか？','うちの子もそうでしたよ。そのうち寝ますから'],
+  ['k','今日、職場でめっちゃ褒められてん','おー！ 何て言われたん？','俺も今日な、上の先生に…']]}
+]},
+{id:'sg',kan:'4',en:'WORK',name:'仕事の巻',sub:'自分の意見より先に、相手の意見。カンファと外来で',col:'sun',kata:[
+ {id:'l13',n:'相手の意見を先に聞く',w:'カンファ・相談・方針の話し合いで、自分の考えが先に浮かんだとき',h:'自分の案を言う前に「先生はどう思われますか？」と聞き、最後まで聞いてから「自分はこう考えていました」と出す',c:'聞いたあとに「でも」で始めない。「なるほど。自分は〜」とつなぐ',y:'「まず理解してから、理解される」は対人関係の古典的な原則。職場で「聞いてもらえた」と感じる経験は、相手の率直さや心理的安全性を高めることが示されている',r:['covey','kluger','zenger'],d:[
+  ['w','この子の退院基準、どうしましょうか','先生はどう考えられてます？','血糖が安定したらでいいと思います。あと…'],
+  ['w','次の勉強会のテーマ、何がいいですかね','みなさんは何に困ってますか？ それを先に聞きたいです','低血糖の対応がいいと思います。資料も僕が…'],
+  ['p','インスリンポンプ、どうしようか迷ってて','お母さんとしては、いま何が一番引っかかってますか？','ポンプにしましょう。メリットはですね…'],
+  ['k','来年、どっちの職場で働くか考えなあかんねんけど','いま、どっちに気持ちが寄ってる？','俺はこっちがいいと思う。理由はな…']]},
+ {id:'l14',n:'合ってるか確かめる（ループ）',w:'相手の説明を聞き終えて、自分の意見を言う前',h:'「〇〇ということで合ってますか？」と自分の言葉で要約して確かめ、相手の「そうです」をもらってから話す',c:'確認は1回でいい。何度も繰り返すと尋問になる',y:'「聞く→自分の言葉で返す→合っているか確かめる」の輪（ルーピング）は調停の現場で生まれ、対立のある対話で相手の「理解された」感を高める技法として広まっている',r:['friedman','duhigg'],d:[
+  ['w','家族は手術を希望してるけど、本人は怖がってて、でも時期を逃すと…というところで止まってます','家族は手術、本人は不安、時期は迫ってる。この3つで止まってる、で合ってます？','それなら本人に説明し直しましょう'],
+  ['w','今回のインシデント、手順の問題というより、伝えるタイミングだったと思うんです','手順じゃなくて、いつ伝えたか、が問題だったと見てるんですね？','いや、手順も見直したほうが'],
+  ['p','食事制限、頑張ってるんですけど、おばあちゃんがおやつをあげちゃって','お家では頑張れてて、おばあちゃんのところでくずれる、ということですね？','おばあちゃんに注意してください'],
+  ['k','保育園の送り、全部変わってほしいってことじゃなくて、週に1回でいいから','毎日じゃなくて、週1回なら頼みたい、ってことやんな？','わかった、俺が全部やるわ']]},
+ {id:'l15',n:'反対意見は、受けとめてから',w:'相手の意見に賛成できないとき',h:'①相手の言い分を自分の言葉で言う ②同意できる点を1つ言う ③「ただ、〜という点は」と、断定せずに自分の見方を出す',c:'「でも」「いや」で始めない。「それはわかる、ただ」の順',y:'反対意見に「相手の主張を認める・同意点を示す・断定を避ける」で返すと、相手は対話を続けたいと感じやすい（会話の受容性）',r:['yeomans','covey'],d:[
+  ['w','この子、もう外来フォローでいいと思うんですよね','全身状態は落ちついてますもんね。ただ、夜間の低血糖だけ、あと1日見たい気がしてます','いや、まだ早いですよ'],
+  ['w','当直の割り当て、今のままでいいんじゃないですか','今の形でも回ってる、というのはその通りです。ただ、月末に偏る点だけ少し気になってて','でも、不公平じゃないですか'],
+  ['p','サプリで血糖が下がるって聞いたので、それで様子を見たいんです','いろいろ調べてくださってるのは、ありがたいです。そのうえで、サプリだけで様子を見るのは心配な点があって','それは効きません。やめてください'],
+  ['k','土曜は実家に泊まったほうが楽やと思う','移動が減るのはたしかに楽やな。ただ、日曜の帰りが混むのだけ気になってて','いや、日帰りのほうがいいって']]},
+ {id:'l16',n:'「ほかには？」で出しきってもらう',w:'相手が意見や不安を1つ言ったあと',h:'「ほかには？」「あと、気になることは？」と聞いて、相手の中にあるものを全部出してもらってから、自分の話に移る',c:'2〜3回まで。相手が「それくらいです」と言ったら、そこで止める',y:'最初に出てくる答えは、最初の答えにすぎない。「ほかには？」と重ねることで相手の本当の論点が出てくる、とコーチングの実践で広く使われている',r:['stanier','zenger'],d:[
+  ['w','家族の不安は、まず費用のことだと思います','費用ですね。ほかには、ありそうですか？','費用なら、医療費助成の説明をしておきますね'],
+  ['w','今日のカンファで言いたかったのは、退院時期のことです','退院時期ですね。ほかに引っかかってることは？','退院時期なら、僕も意見があって'],
+  ['p','心配なのは、学校での注射のことで','学校での注射ですね。ほかにも気になってることはありますか？','学校には連絡しておきますので、大丈夫です'],
+  ['k','来月の予定で言っておきたいのは、運動会の日のことで','運動会ね。ほかにもある？','運動会は俺、休み取れると思う。あと俺の話やけど…']]}
+]}
+];
+const LALL=LSCROLLS.flatMap(s=>s.kata);
+
 
 const STAMP_AT=3, LS='owarai-makimono-v1';
 
 /* ---------- progress ---------- */
-let P={k:{},memo:{},pace:[],set:{sec:5,scenes:['f'],hide:false,fscenes:['w','g'],tsec:20,mic:false,side:'f'}};
+let P={k:{},memo:{},pace:[],set:{sec:5,scenes:['f'],hide:false,fscenes:['w','g'],tsec:20,mic:false,side:'f',lscenes:['f','w'],lsec:30,lwait:2}};
 try{const raw=localStorage.getItem(LS); if(raw){const j=JSON.parse(raw); if(j&&j.k)P.k=j.k; if(j&&j.memo)P.memo=j.memo; if(j&&j.set)Object.assign(P.set,j.set); if(j&&Array.isArray(j.pace))P.pace=j.pace;}}catch(e){}
 if(!P.set.v2){P.set.sec=30;P.set.v2=1}
-const isB=()=>P.set.side==='b';
-const curScrolls=()=>isB()?FSCROLLS:SCROLLS, curAll=()=>isB()?FALL:ALL;
-const curScenes=()=>isB()?FSCENES:SCENES, selScenes=()=>isB()?P.set.fscenes:P.set.scenes;
-const kataById=id=>ALL.find(k=>k.id===id)||FALL.find(k=>k.id===id);
-function applySide(){document.documentElement.dataset.side=isB()?'formal':'comedy'}
+const isB=()=>P.set.side==='b', isL=()=>P.set.side==='l';
+const curScrolls=()=>isB()?FSCROLLS:isL()?LSCROLLS:SCROLLS, curAll=()=>isB()?FALL:isL()?LALL:ALL;
+const curScenes=()=>isB()?FSCENES:SCENES, selScenes=()=>isB()?P.set.fscenes:isL()?P.set.lscenes:P.set.scenes;
+const kataById=id=>ALL.find(k=>k.id===id)||FALL.find(k=>k.id===id)||LALL.find(k=>k.id===id);
+function applySide(){document.documentElement.dataset.side=isB()?'formal':isL()?'listen':'comedy'}
+const SIDES={f:['おもて','COMEDY'],b:['うら','FORMAL'],l:['きく','LISTEN']}, SIDE_NEXT={f:'b',b:'l',l:'f'};
+const lFirst=()=>P.set.lwait>0?'wait':'think';
+const refLabel=x=>{const r=REFS[x];return r?r.a.split(',')[0].replace(/ et al\.?$/,'')+' '+r.y.split(' ')[0]:x};
+const refChips=k=>(k.r||[]).map(x=>'<span class="rf">'+esc(refLabel(x))+'</span>').join('');
 applySide();
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition||null;
 const FILLER=/まあ|えー+|えっと|あのー|なんか/g;
@@ -580,8 +738,8 @@ function pushRemote(){
 const $app=document.getElementById('app');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-const scrollOf=id=>SCROLLS.find(s=>s.id===id)||FSCROLLS.find(s=>s.id===id);
-const scrollOfKata=k=>SCROLLS.find(x=>x.kata.includes(k))||FSCROLLS.find(x=>x.kata.includes(k));
+const scrollOf=id=>SCROLLS.find(s=>s.id===id)||FSCROLLS.find(s=>s.id===id)||LSCROLLS.find(s=>s.id===id);
+const scrollOfKata=k=>SCROLLS.find(x=>x.kata.includes(k))||FSCROLLS.find(x=>x.kata.includes(k))||LSCROLLS.find(x=>x.kata.includes(k));
 const fmtEx=t=>esc(t).replace(/｜/g,'<span class="pz" aria-label="間">間</span>');
 const mascotB=`<svg viewBox="0 0 120 130" role="img" aria-label="まきもののキャラクター（フォーマル）">
 <rect class="m-body" x="24" y="22" width="72" height="86" rx="6"/>
@@ -590,6 +748,16 @@ const mascotB=`<svg viewBox="0 0 120 130" role="img" aria-label="まきものの
 <path class="m-line" d="M40 58 Q46 53 52 58 M68 58 Q74 53 80 58"/>
 <path class="m-line" d="M52 72 H68"/>
 <path class="m-tie" d="M60 86 L46 79 V93 Z M60 86 L74 79 V93 Z"/><circle class="m-tie" cx="60" cy="86" r="4"/></svg>`;
+const mascotL=`<svg viewBox="0 0 120 130" role="img" aria-label="まきもののキャラクター（きく）">
+<path class="m-band" d="M20 66 C20 26 100 26 100 66"/>
+<rect class="m-body" x="24" y="22" width="72" height="86" rx="6"/>
+<rect class="m-roll" x="12" y="10" width="96" height="22" rx="11"/>
+<rect class="m-roll" x="12" y="98" width="96" height="22" rx="11"/>
+<rect class="m-cup" x="8" y="52" width="18" height="28" rx="7"/><rect class="m-cup" x="94" y="52" width="18" height="28" rx="7"/>
+<path class="m-line" d="M40 60 Q46 53 52 60 M68 60 Q74 53 80 60"/>
+<circle class="m-cheek" cx="38" cy="72" r="6"/><circle class="m-cheek" cx="82" cy="72" r="6"/>
+<path class="m-line" d="M52 74 Q60 81 68 74"/></svg>`;
+const curMascot=()=>isB()?mascotB:isL()?mascotL:mascot;
 const mascot=`<svg viewBox="0 0 120 130" role="img" aria-label="まきもののキャラクター">
 <rect class="m-body" x="24" y="22" width="72" height="86" rx="6"/>
 <rect class="m-roll" x="12" y="10" width="96" height="22" rx="11"/>
@@ -604,8 +772,10 @@ function go(v,extra){stopTimer();S=Object.assign({v},extra||{});render();window.
 let recog=null;
 function stopMic(){if(recog){const r=recog;recog=null;try{r.onend=null;r.stop()}catch(e){}}}
 function stopTimer(){if(timer){clearInterval(timer);timer=null}stopMic()}
-function flip(){
-  const sw=()=>{stopTimer();P.set.side=isB()?'f':'b';saveLocal();applySide();S={v:'home'};render();window.scrollTo(0,0)};
+function flip(target){
+  const next=target&&SIDES[target]?target:(SIDE_NEXT[P.set.side]||'f');
+  if(next===P.set.side)return;
+  const sw=()=>{stopTimer();P.set.side=next;saveLocal();applySide();S={v:'home'};render();window.scrollTo(0,0)};
   let rm=false;try{rm=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
   if(rm){sw();return}
   $app.classList.add('flip-out');
@@ -613,17 +783,18 @@ function flip(){
 }
 
 function render(){
-  const f={home:vHome,scroll:vScroll,drill:vDrill,speak:vSpeak,quiz:vQuiz,result:vResult,copy:vCopy}[S.v];
+  const f={home:vHome,scroll:vScroll,drill:vDrill,speak:vSpeak,listen:vListen,refs:vRefs,quiz:vQuiz,result:vResult,copy:vCopy}[S.v];
   $app.innerHTML=f();
   if(S.v==='drill'&&S.phase==='think')startTimer();
+  if(S.v==='listen'){if(S.phase==='wait')startWait();else if(S.phase==='think')startTimer()}
   if(S.v==='speak'&&S.phase==='speak')startSpeakTimer();
 }
 
 function vHome(){
-  if(isB())return vHomeB();
+  if(isB())return vHomeB(); if(isL())return vHomeL();
   const n=stampCount(ALL),pct=Math.round(n/ALL.length*100);
-  return `<div class="flipbar"><button class="flipbtn" data-act="flip">うら面 <span class="en">FORMAL</span> ↻</button></div>
-  <header class="hero"><button class="mbtn" data-act="flip" aria-label="うら面（話し方）へ">${mascot}</button><div><span class="en">COMEDY DOJO</span><h1>おわらい巻物</h1><p class="sub">型をおぼえて、声に出して返す。1回10問。</p></div></header>
+  return `${sideNav()}
+  <header class="hero"><button class="mbtn" data-act="flip" aria-label="つぎの面（話し方）へ">${mascot}</button><div><span class="en">COMEDY DOJO</span><h1>おわらい巻物</h1><p class="sub">型をおぼえて、声に出して返す。1回10問。</p></div></header>
   <section class="card"><div class="meter"><span class="tag en pink">STAMPS</span><div class="bar"><i style="width:${pct}%"></i></div><span class="num">${n}/${ALL.length}</span></div>
   <p class="sub" style="margin-top:8px">ひとつの型で「すぐ言えた」が${STAMP_AT}回たまると、スタンプがつきます。${synced?'きろくは、ほかの端末にも同期されます。':'きろくは、この端末に保存されます。'}</p></section>
   ${SCROLLS.map((s,i)=>{const c=stampCount(s.kata);return `<button class="scr" data-act="open" data-id="${s.id}">
@@ -639,8 +810,8 @@ function vHome(){
 function vHomeB(){
   const L=FALL,n=stampCount(L),pct=Math.round(n/L.length*100);
   const pc=P.pace.slice(-5),avg=pc.length?Math.round(pc.reduce((a,b)=>a+b.c,0)/pc.length):0;
-  return `<div class="flipbar"><button class="flipbtn" data-act="flip">おもて面 <span class="en">COMEDY</span> ↻</button></div>
-  <header class="hero"><button class="mbtn" data-act="flip" aria-label="おもて面（おわらい）へ">${mascotB}</button><div><span class="en">SPEECH DOJO</span><h1>話し方巻物</h1><p class="sub">ゆっくり、短く、間をとって。1回5題。</p></div></header>
+  return `${sideNav()}
+  <header class="hero"><button class="mbtn" data-act="flip" aria-label="つぎの面（きく）へ">${mascotB}</button><div><span class="en">SPEECH DOJO</span><h1>話し方巻物</h1><p class="sub">ゆっくり、短く、間をとって。1回5題。</p></div></header>
   <section class="card"><div class="meter"><span class="tag en pink">STAMPS</span><div class="bar"><i style="width:${pct}%"></i></div><span class="num">${n}/${L.length}</span></div>
   <p class="sub" style="margin-top:8px">うら面は「速く返す」練習ではありません。目標の秒数をかけて、ゆっくり話す練習です。早く終わりすぎたら、間が足りないサイン。</p>
   ${avg?`<p class="sub" style="margin-top:6px">さいきんの話す速さ：<b class="num">${avg}</b> 字/分（聞きやすい目安は300前後）</p>`:''}</section>
@@ -654,8 +825,46 @@ function vHomeB(){
   <p class="sub center">うら面のお題と例文は、TEDなどで知られる話し方の原則をもとに、このアプリ用に書き下ろしたものです。<span class="pz">間</span>の場所で一拍おきます。</p>`;
 }
 
+function sideNav(){return `<div class="sidenav">${['f','b','l'].map(x=>{const cur=P.set.side===x;return `<button data-act="flip" data-id="${x}" aria-current="${cur}" aria-label="${SIDES[x][0]}面 ${SIDES[x][1]}">${cur?SIDES[x][0]+' ':''}<span class="en">${SIDES[x][1]}</span></button>`}).join('')}</div>`}
+
+function vHomeL(){
+  const L=LALL,n=stampCount(L),pct=Math.round(n/L.length*100);
+  return `${sideNav()}
+  <header class="hero"><button class="mbtn" data-act="flip" aria-label="つぎの面（おわらい）へ">${mascotL}</button><div><span class="en">LISTEN DOJO</span><h1>きく巻物</h1><p class="sub">相手の話を、広げて返す。1回8問。</p></div></header>
+  <section class="card"><div class="meter"><span class="tag en pink">STAMPS</span><div class="bar"><i style="width:${pct}%"></i></div><span class="num">${n}/${L.length}</span></div>
+  <p class="sub" style="margin-top:8px">聞く練習で覚えることはひとつ。返しを<b>「自分に持っていく」</b>から<b>「相手の話を広げる」</b>に変える。人は自分のことを話すとき脳の報酬系が働くので、話させてあげた人が好かれます。</p>
+  <p style="margin-top:6px"><span class="rf">Derber 1979</span><span class="rf">Tamir & Mitchell 2012</span><span class="rf">Huang et al. 2017</span></p></section>
+  <section class="card" style="display:grid;gap:10px"><span class="en">3 RULES</span>
+   <div class="rule"><span class="num">1</span><span><b>2秒だまる</b><br><span class="sub">相手が言い終わっても、心の中で「いち、に」</span></span></div>
+   <div class="rule"><span class="num">2</span><span><b>自分の話は、質問2つのあと</b><br><span class="sub">「俺も」は飲みこむ</span></span></div>
+   <div class="rule"><span class="num">3</span><span><b>迷ったら、最後の言葉を拾う</b><br><span class="sub">相手の最後の1語を、語尾を上げてくりかえす</span></span></div>
+   <button class="btn small plain" data-act="refs">参考文献を見る</button></section>
+  ${LSCROLLS.map((s,i)=>{const c=stampCount(s.kata);return `<button class="scr" data-act="open" data-id="${s.id}">
+    <span class="kan" style="background:var(--${s.col})">${s.kan}</span>
+    <span><span class="en">STEP ${s.kan} · ${s.en}</span>${i===0?' <span class="tag pink">START</span>':''}<h2>${s.name}</h2><span class="sub">${s.sub}</span>
+    <span class="minibar"><i style="width:${Math.round(c/s.kata.length*100)}%"></i></span></span></button>`}).join('')}
+  <section class="card"><span class="en">MIX · ALL SCROLLS</span><h2 style="font-size:20px">ぜんぶまぜて出題</h2><p class="sub">4つの巻から、ランダムに出します。練習は8問、クイズは8問。</p><div class="row" style="margin-top:12px"><button class="btn pink" data-act="mix">ミックス練習</button><button class="btn mint" data-act="mixquiz">ミックスクイズ</button></div></section>
+  ${settings()}
+  <button class="btn plain" data-act="copy">けっかを書き出す</button>
+  <p class="sub center">お題と例文は、このアプリ用の書き下ろしです。型の根拠は「参考文献」から。実際の会話で、相手が続きを話してくれたら合格。</p>`;
+}
+
+function vRefs(){
+  const G=[['paper','研究論文・学術書'],['book','本（海外）'],['jp','本（日本語）']];
+  return `<div class="top"><button class="back" data-act="home">← もどる</button><span class="tag en grape">REFERENCES</span></div>
+  <h1 style="font-size:24px">参考文献</h1><p class="sub">きく巻物の型の根拠にした文献です。お題と例文はこれらをもとにこのアプリ用に書き下ろしたもので、転載ではありません。</p>
+  ${G.map(([g,name])=>`<h2 style="font-size:18px">${name}</h2><div class="refs">${Object.keys(REFS).filter(x=>REFS[x].k===g).map(x=>{const r=REFS[x];const used=LALL.filter(k=>k.r.includes(x)).map(k=>esc(k.n));
+    return `<div class="ref"><b>${esc(r.a)}（${esc(r.y)}）</b><br>${esc(r.t)}<br><span class="sub">${esc(r.j)}</span><div class="u">${esc(r.u)}</div>${used.length?'<div class="u">→ 型：'+used.join('、')+'</div>':''}</div>`}).join('')}</div>`).join('')}`;
+}
+
 function settings(){
   const st=P.set;
+  if(isL())return `<section class="card set">
+   <div><b>ばめん（いくつでも）</b><div class="chips" style="margin-top:6px">${Object.keys(SCENES).map(k=>`<button class="chip" data-act="lscene" data-id="${k}" aria-pressed="${st.lscenes.includes(k)}">${SCENES[k]}</button>`).join('')}</div></div>
+   <div><b>だまって待つ時間</b><div class="chips" style="margin-top:6px">${[0,2,3].map(n=>`<button class="chip" data-act="lwait" data-id="${n}" aria-pressed="${st.lwait===n}">${n?n+'びょう':'なし'}</button>`).join('')}</div></div>
+   <div><b>かんがえる時間（なれたら短く）</b><div class="chips" style="margin-top:6px">${[30,20,10,5,3].map(n=>`<button class="chip" data-act="lsec" data-id="${n}" aria-pressed="${st.lsec===n}">${n}びょう</button>`).join('')}</div></div>
+   <div><b>型の名前</b><div class="chips" style="margin-top:6px"><button class="chip" data-act="hide" data-id="0" aria-pressed="${!st.hide}">見せる（守）</button><button class="chip" data-act="hide" data-id="1" aria-pressed="${st.hide}">かくす（むずかしい）</button></div></div>
+  </section>`;
   if(isB())return `<section class="card set">
    <div><b>ばめん（いくつでも）</b><div class="chips" style="margin-top:6px">${Object.keys(FSCENES).map(k=>`<button class="chip" data-act="fscene" data-id="${k}" aria-pressed="${st.fscenes.includes(k)}">${FSCENES[k]}</button>`).join('')}</div></div>
    <div><b>話す時間の目標（なれたら長く）</b><div class="chips" style="margin-top:6px">${[15,20,30,45,60].map(n=>`<button class="chip" data-act="tsec" data-id="${n}" aria-pressed="${st.tsec===n}">${n}びょう</button>`).join('')}</div></div>
@@ -674,29 +883,30 @@ function vScroll(){
   return `<div class="top"><button class="back" data-act="home">← もどる</button><span class="tag en ${s.col==='sun'?'':s.col}">SCROLL ${s.kan} · ${s.en}</span></div>
   <h1 style="font-size:26px">${s.name}</h1>
   ${settings()}
-  <div class="row"><button class="btn pink" data-act="drill">${isB()?'スピーチ練習':'しゅんぱつ練習'}</button><button class="btn mint" data-act="quiz">型クイズ</button></div>
+  <div class="row"><button class="btn pink" data-act="drill">${isB()?'スピーチ練習':isL()?'聞いて返す練習':'しゅんぱつ練習'}</button><button class="btn mint" data-act="quiz">型クイズ</button></div>
   <h2 style="font-size:18px;margin-top:6px">型カード（${stampCount(s.kata)}/${s.kata.length}）</h2>
   <div class="klist">${s.kata.map(k=>{const open=S.open===k.id,r=P.k[k.id];return `<div class="kata">
     <button data-act="kata" data-id="${k.id}" aria-expanded="${open}"><span class="stamp ${hasStamp(k.id)?'on':''}">${hasStamp(k.id)?'OK':(r?r.g:0)}</span><span class="nm">${esc(k.n)}</span><span aria-hidden="true">${open?'▲':'▼'}</span></button>
-    ${open?`<div class="kbody"><dl class="kv"><dt>いつ使う</dt><dd>${esc(k.w)}</dd><dt>やり方</dt><dd>${esc(k.h)}</dd>${k.c?`<dt>ちゅうい</dt><dd>${esc(k.c)}</dd>`:''}${isB()?`<dt>例</dt><dd>${fmtEx(k.d[0][2])}</dd>`:`<dt>本のページ</dt><dd>${k.p?'p.'+k.p+' あたり':'目次からさがす'}${k.rec?'　／声の練習。録音して聞きかえそう':''}</dd>`}</dl>${convHTML(k.id)}<div><label class="lbl" for="memo-${k.id}"><span>じぶんメモ</span><span>本で覚えたい例や、自分のアレンジ</span></label><textarea class="memo" id="memo-${k.id}" data-id="${k.id}" placeholder="ここに書いたことは、練習の答え合わせにも出ます">${esc(P.memo[k.id]||'')}</textarea></div>
+    ${open?`<div class="kbody"><dl class="kv"><dt>いつ使う</dt><dd>${esc(k.w)}</dd><dt>やり方</dt><dd>${esc(k.h)}</dd>${k.c?`<dt>ちゅうい</dt><dd>${esc(k.c)}</dd>`:''}${isB()?`<dt>例</dt><dd>${fmtEx(k.d[0][2])}</dd>`:isL()?`<dt>なぜ効く</dt><dd>${esc(k.y)}<div style="margin-top:4px">${refChips(k)}</div></dd>`:`<dt>本のページ</dt><dd>${k.p?'p.'+k.p+' あたり':'目次からさがす'}${k.rec?'　／声の練習。録音して聞きかえそう':''}</dd>`}</dl>${convHTML(k.id)}<div><label class="lbl" for="memo-${k.id}"><span>じぶんメモ</span><span>${isL()?'実際に使えた返しや、自分のアレンジ':'本で覚えたい例や、自分のアレンジ'}</span></label><textarea class="memo" id="memo-${k.id}" data-id="${k.id}" placeholder="ここに書いたことは、練習の答え合わせにも出ます">${esc(P.memo[k.id]||'')}</textarea></div>
     <div><button class="btn small pink" data-act="drill1" data-id="${k.id}">この型だけ練習</button></div></div>`:''}</div>`}).join('')}</div>`;
 }
 
 const WHO={A:'相手',B:'じぶん',C:'まわり'};
-function convHTML(id){const c=CONV[id];if(!c)return '';
+function convHTML(id){let c=CONV[id];
+  if(!c){const k=LALL.find(x=>x.id===id);if(!k)return '';const d=k.d[0];c=[['A',d[1]]];if(d[4])c.push(['A',d[4]]);c.push(['B',d[2],1])}
   return '<div><p class="lbl"><span>会話の例</span><span>ピンクの枠が型のセリフ</span></p><div class="cv">'+c.map(l=>'<p class="ln'+(l[0]==='A'||l[0]==='C'||l[0]==='もと'?'':' me')+(l[2]?' hit':'')+'"><small>'+esc(WHO[l[0]]||l[0])+'</small>'+esc(l[1])+'</p>').join('')+'</div></div>'}
 function buildQueue(kataList){
   const sc=selScenes();let items=[];
   kataList.forEach(k=>k.d.forEach(d=>{if(sc.includes(d[0]))items.push({k,d})}));
   if(!items.length)kataList.forEach(k=>k.d.forEach(d=>items.push({k,d})));
-  return shuffle(items).slice(0,isB()?5:10);
+  return shuffle(items).slice(0,isB()?5:isL()?8:10);
 }
 function startDrill(kataList){
   const q=buildQueue(kataList);
-  go(isB()?'speak':'drill',{id:S.id||'all',q,i:0,phase:isB()?'read':'think',res:{g:0,m:0,b:0},before:stampCount(curAll()),only:kataList.length===1?kataList[0].id:null});
+  go(isB()?'speak':isL()?'listen':'drill',{id:S.id||'all',q,i:0,phase:isB()?'read':isL()?lFirst():'think',res:{g:0,m:0,b:0},before:stampCount(curAll()),only:kataList.length===1?kataList[0].id:null});
 }
 function startTimer(){
-  const total=P.set.sec*1000,t0=Date.now();
+  const total=(isL()?P.set.lsec:P.set.sec)*1000,t0=Date.now();
   const num=document.getElementById('cnt'),bar=document.getElementById('tb');
   timer=setInterval(()=>{const left=total-(Date.now()-t0);
     if(left<=0){stopTimer();S.phase='reveal';render();return}
@@ -713,6 +923,27 @@ function vDrill(){
     <p class="sub">${hide?'型：'+esc(k.n)+'　':''}${k.p?'本の例は p.'+k.p+' あたりで見くらべよう。':'本の例も見くらべよう。'}${k.rec?' 声の練習なので、録音して聞きかえそう。':''}</p>${P.memo[k.id]?'<p class="sub mm"><b>じぶんメモ：</b>'+esc(P.memo[k.id])+'</p>':''}</div>
    <p class="center" style="font-weight:900">どうやった？</p>
    <div class="rate"><button class="btn mint" data-act="rate" data-id="g">◎<small>すぐ言えた</small></button><button class="btn" data-act="rate" data-id="m">△<small>時間かかった</small></button><button class="btn pink" data-act="rate" data-id="b">✕<small>出なかった</small></button></div>`;
+}
+
+function startWait(){
+  const total=P.set.lwait*1000,t0=Date.now(),num=document.getElementById('cnt');
+  timer=setInterval(()=>{const left=total-(Date.now()-t0);
+    if(left<=0){stopTimer();S.phase='think';render();return}
+    if(num)num.textContent=Math.ceil(left/1000)},80);
+}
+function vListen(){
+  const it=S.q[S.i],k=it.k,d=it.d,s=scrollOfKata(k),hide=P.set.hide&&!S.only,masked=hide&&S.phase!=='reveal';
+  const head=`<div class="top"><button class="back" data-act="quit">× やめる</button><span class="num">${S.i+1} / ${S.q.length}</span></div>
+   <div class="row" style="align-items:center"><span class="tag mint">${SCENES[d[0]]}</span><span class="tag ${s.col==='sun'?'':s.col}">${masked?'型：？？？':esc(k.n)}</span></div>
+   <div><div class="bubble">${esc(d[1])}</div>${S.phase!=='wait'&&d[4]?`<div class="bubble more pop" style="margin-top:22px">${esc(d[4])}</div>`:''}<p class="who">${masked?'相手の話を広げる返しなら、どの型でもOK。':esc(k.h)}</p></div>`;
+  if(S.phase==='wait')return head+`<div class="waitbox"><span class="en">WAIT · まだ言わない</span><div class="count" id="cnt" aria-live="off">${P.set.lwait}</div><p class="sub center">心の中で「いち、に」。<br>言いたいことが浮かんだら、あとで箱へ。</p></div>`;
+  if(S.phase==='think')return head+`<div class="count" id="cnt" aria-live="off">${P.set.lsec}</div><div class="tbar"><i id="tb"></i></div>
+   <p class="big">相手の話を広げて返そう！</p><button class="btn" data-act="said">言えた！</button>`;
+  return head+`<div class="ans pop"><span class="tag en mint">SUPPORT · 広げる返し</span><p class="ex">${esc(d[2])}</p>
+    <span class="tag en pink">SHIFT · 自分の話にもっていく</span><p class="ex ng">${esc(d[3])}</p>
+    ${hide?'<p class="sub">型：'+esc(k.n)+'</p>':''}<p class="why">${esc(k.y)}</p>${P.memo[k.id]?'<p class="sub mm"><b>じぶんメモ：</b>'+esc(P.memo[k.id])+'</p>':''}</div>
+   <p class="center" style="font-weight:900">どうやった？</p>
+   <div class="rate"><button class="btn mint" data-act="rate" data-id="g">◎<small>広げられた</small></button><button class="btn" data-act="rate" data-id="m">△<small>自分の話をした</small></button><button class="btn pink" data-act="rate" data-id="b">✕<small>出なかった</small></button></div>`;
 }
 
 function startSpeak(){
@@ -782,10 +1013,10 @@ function vQuiz(){
 function vResult(){
   const got=stampCount(curAll())-S.before;
   const body=S.kind==='quiz'?`<p class="big">${S.ok} / ${S.total} もん せいかい</p>`
-    :`<div class="rate"><div class="card center"><div class="big">◎ ${S.res.g}</div><span class="sub">${isB()?'落ちついて':'すぐ言えた'}</span></div><div class="card center"><div class="big">△ ${S.res.m}</div><span class="sub">${isB()?'速くなった':'時間かかった'}</span></div><div class="card center"><div class="big">✕ ${S.res.b}</div><span class="sub">${isB()?'つまった':'出なかった'}</span></div></div>`;
-  return `<header class="hero">${mascot}<div><span class="en">NICE WORK!</span><h1 style="font-size:26px">おつかれさま！</h1><p class="sub">${got>0?'あたらしいスタンプ '+got+'こ！':'つづけると、スタンプがたまります。'}</p></div></header>
+    :`<div class="rate"><div class="card center"><div class="big">◎ ${S.res.g}</div><span class="sub">${isB()?'落ちついて':isL()?'広げられた':'すぐ言えた'}</span></div><div class="card center"><div class="big">△ ${S.res.m}</div><span class="sub">${isB()?'速くなった':isL()?'自分の話をした':'時間かかった'}</span></div><div class="card center"><div class="big">✕ ${S.res.b}</div><span class="sub">${isB()?'つまった':'出なかった'}</span></div></div>`;
+  return `<header class="hero">${curMascot()}<div><span class="en">NICE WORK!</span><h1 style="font-size:26px">おつかれさま！</h1><p class="sub">${got>0?'あたらしいスタンプ '+got+'こ！':'つづけると、スタンプがたまります。'}</p></div></header>
    ${body}
-   ${S.kind==='quiz'?'':'<p class="sub center">'+(isB()?'きょう1回、会議や外来で「間」をひとつ使えたら合格です。':'きょう1回、だれかとの会話でひとつ使えたら合格です。')+'</p>'}
+   ${S.kind==='quiz'?'':'<p class="sub center">'+(isB()?'きょう1回、会議や外来で「間」をひとつ使えたら合格です。':isL()?'きょう1回、だれかの話に「それで？」か質問をひとつ足せたら合格です。':'きょう1回、だれかとの会話でひとつ使えたら合格です。')+'</p>'}
    <div class="row"><button class="btn pink" data-act="${S.kind==='quiz'?'quiz':'again'}">もう1回</button>${S.id==='all'?'<button class="btn plain" data-act="home">ホームにもどる</button>':'<button class="btn plain" data-act="open" data-id="'+S.id+'">巻にもどる</button>'}</div>`;
 }
 
@@ -793,6 +1024,7 @@ function exportText(){
   const rows=[['巻','型','すぐ言えた','時間かかった','出なかった','クイズ正解','クイズ不正解'].join('\t')];
   SCROLLS.forEach(s=>s.kata.forEach(k=>{const r=P.k[k.id]||{};rows.push(['SCROLL '+s.kan,k.n,r.g||0,r.m||0,r.b||0,r.qo||0,r.qx||0].join('\t'))}));
   FSCROLLS.forEach(s=>s.kata.forEach(k=>{const r=P.k[k.id]||{};rows.push(['うら '+s.kan,k.n,r.g||0,r.m||0,r.b||0,r.qo||0,r.qx||0].join('\t'))}));
+  LSCROLLS.forEach(s=>s.kata.forEach(k=>{const r=P.k[k.id]||{};rows.push(['きく '+s.kan,k.n,r.g||0,r.m||0,r.b||0,r.qo||0,r.qx||0].join('\t'))}));
   return rows.join('\n');
 }
 function vCopy(){
@@ -814,7 +1046,11 @@ $app.addEventListener('click',e=>{
   else if(a==='hide'){P.set.hide=id==='1';saveLocal();render()}
   else if(a==='drill')startDrill(scrollOf(S.id).kata);
   else if(a==='drill1')startDrill([kataById(id)]);
-  else if(a==='flip')flip();
+  else if(a==='flip')flip(id);
+  else if(a==='refs')go('refs');
+  else if(a==='lscene'){const sc=P.set.lscenes,i=sc.indexOf(id);if(i>=0){if(sc.length>1)sc.splice(i,1)}else sc.push(id);saveLocal();render()}
+  else if(a==='lsec'){P.set.lsec=Number(id);saveLocal();render()}
+  else if(a==='lwait'){P.set.lwait=Number(id);saveLocal();render()}
   else if(a==='fscene'){const sc=P.set.fscenes,i=sc.indexOf(id);if(i>=0){if(sc.length>1)sc.splice(i,1)}else sc.push(id);saveLocal();render()}
   else if(a==='tsec'){P.set.tsec=Number(id);saveLocal();render()}
   else if(a==='mic'){P.set.mic=id==='1'&&!!SR;saveLocal();render()}
@@ -823,7 +1059,7 @@ $app.addEventListener('click',e=>{
   else if(a==='again')startDrill(S.only?[kataById(S.only)]:(S.id==='all'?curAll():scrollOf(S.id).kata));
   else if(a==='said'){stopTimer();S.phase='reveal';render()}
   else if(a==='rate'){const it=S.q[S.i];rec(it.k.id)[id]++;S.res[id]++;saveLocal();
-    if(S.i+1<S.q.length){S.i++;S.phase=S.v==='speak'?'read':'think';render();window.scrollTo(0,0)}
+    if(S.i+1<S.q.length){S.i++;S.phase=S.v==='speak'?'read':S.v==='listen'?lFirst():'think';render();window.scrollTo(0,0)}
     else{pushRemote();go('result',{id:S.id,kind:'drill',res:S.res,before:S.before,only:S.only})}}
   else if(a==='quiz')startQuiz();
   else if(a==='pick'){const k=S.qs[S.i].k;S.pick=id;const r=rec(k.id);if(id===k.id){r.qo++;S.ok++}else r.qx++;saveLocal();render()}
